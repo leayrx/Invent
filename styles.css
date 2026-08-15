@@ -327,3 +327,19 @@ td input {
   .panel { padding: 18px; }
   .login-card { padding: 25px; }
 }
+
+.notes-section {
+  margin-top: 30px;
+}
+
+.notes-section textarea {
+  width: 100%;
+  min-height: 140px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  resize: vertical;
+  box-sizing: border-box;
+}
