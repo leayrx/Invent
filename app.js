@@ -4,7 +4,7 @@
 
 // ATTENTION : sur GitHub Pages, ces identifiants sont visibles dans le code source.
 // Cette connexion sert seulement de verrou léger côté navigateur.
-const USER = [
+const USERS = [
   {
     username: "pharma",
     password: "pharma"
