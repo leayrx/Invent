@@ -390,7 +390,7 @@ function resetEntryForm() {
 const stockTableBody = document.getElementById("stockTableBody");
 
 function getStatus(component, quantity) {
-  if (quantity < component.min) {
+  if (quantity <= component.min) {
     return { label: "À recommander", className: "status-low" };
   }
 
@@ -409,7 +409,7 @@ function renderStockTable() {
     const status = getStatus(component, current.quantity);
 
     const row = document.createElement("tr");
-    if (current.quantity < component.min) row.classList.add("low-row");
+    if (current.quantity <= component.min) row.classList.add("low-row");
 
     row.innerHTML = `
       <td class="product-name">${escapeHtml(component.name)}</td>
