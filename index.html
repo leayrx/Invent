@@ -147,6 +147,35 @@
               <tbody id="orderTableBody"></tbody>
             </table>
           </div>
+          <div class="expiry-section">
+  <div class="section-title">
+    <h3>Péremption dans 1 mois ou moins</h3>
+    <p class="muted">
+      Produits dont la date de péremption est dans les 30 prochains jours,
+      ainsi que les produits déjà périmés.
+    </p>
+  </div>
+
+  <div id="expiryEmpty" class="empty-state hidden">
+    <strong>Aucune péremption proche.</strong>
+    <span>Aucun composant ne périme dans les 30 prochains jours.</span>
+  </div>
+
+  <div id="expiryTableWrap" class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Composant</th>
+          <th>Stock actuel</th>
+          <th>Date de péremption</th>
+          <th>Délai</th>
+        </tr>
+      </thead>
+
+      <tbody id="expiryTableBody"></tbody>
+    </table>
+  </div>
+</div>
         </div>
       </section>
     </main>

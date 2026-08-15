@@ -4,26 +4,126 @@
 
 // ATTENTION : sur GitHub Pages, ces identifiants sont visibles dans le code source.
 // Cette connexion sert seulement de verrou léger côté navigateur.
-const AUTH = {
-  username: "admin",
-  password: "inventaire123"
-};
+const USERS = [
+  {
+    username: "ol",
+    password: "se"
+  },
+  {
+    username: "ce",
+    password: "vi"
+  },
+  {
+    username: "lo",
+    password: "si"
+  },
+  {
+    username: "th",
+    password: "mo"
+  },
+  {
+    username: "el",
+    password: "pe"
+  },
+  {
+    username: "na",
+    password: "ge"
+  },
+  {
+    username: "le",
+    password: "yr"
+  }
+];
 
 // Liste de TOUS les composants autorisés.
 // Ajoutez / modifiez simplement les lignes ci-dessous.
 // min = stock minimum à conserver
 // max = stock maximum cible après réapprovisionnement
 const COMPONENTS = [
-  { id: "ATV", name: "ATV", min: 5, max: 20 },
-  { id: "M340", name: "M340", min: 4, max: 16 },
-  { id: "TSX47", name: "TSX47", min: 3, max: 12 },
-  { id: "BMXP342020", name: "BMXP342020", min: 2, max: 8 },
-  { id: "BMXDDI1602", name: "BMXDDI1602", min: 4, max: 15 },
-  { id: "BMXDDO1602", name: "BMXDDO1602", min: 4, max: 15 },
-  { id: "HMIGTO5310", name: "HMIGTO5310", min: 1, max: 5 },
-  { id: "LC1D09", name: "LC1D09", min: 8, max: 30 },
-  { id: "GV2ME14", name: "GV2ME14", min: 6, max: 24 },
-  { id: "XB4BA31", name: "XB4BA31", min: 10, max: 40 }
+  { id: "Electrode DSA Shiller", name: "Electrode DSA Shiller", min: 1, max: 3 },
+  { id: "Electrode DSA Philips", name: "Electrode DSA Philips", min: 1, max: 3 },
+  { id: "Electrode Electro", name: "Electrode Electro", min: 1, max: 2 },
+  { id: "Glucopulse", name: "Glucopulse", min: 1, max: 2 },
+  { id: "Embout Thermomètre", name: "Embout Thermomètre", min: 1, max: 4 },
+  { id: "Autopiqueur", name: "Autopiqueur", min: 10, max: 50 },
+  { id: "Lampe Pupille", name: "Lampe Pupille", min: 1, max: 1 },
+  { id: "Pile Dextro", name: "Pile Dextro", min: 1, max: 2 },
+  { id: "Boîte Bandelette Dextro", name: "Boîte Bandelette Dextro", min: 1, max: 2 },
+  { id: "Kit AES", name: "Kit AES", min: 1, max: 1 },
+  { id: "Boîte Compresses", name: "Boîte Compresses", min: 1, max: 3 },
+  { id: "CHU", name: "CHU", min: 2, max: 5 },
+  { id: "Ciseaux Gesco", name: "Ciseaux Gesco", min: 1, max: 1 },
+  { id: "Bidon Eau Stérile", name: "Bidon Eau Stérile", min: 1, max: 2 },
+  { id: "Sparadrap", name: "Sparadrap", min: 1, max: 3 },
+  { id: "Bande", name: "Bande", min: 5, max: 10 },
+  { id: "Pansement Américain", name: "Pansement Américain", min: 5, max: 10 },
+  { id: "Echarpe", name: "Echarpe", min: 2, max: 4 },
+  { id: "Epingle à Nourrisse", name: "Epingle à Nourrisse", min: 2, max: 4 },
+  { id: "Pansement Compressif", name: "Pansement Compressif", min: 0, max: 1 },
+  { id: "Garrot Tourniquet", name: "Garrot Tourniquet", min: 1, max: 1 },
+  { id: "Garrot Plastique", name: "Garrot Plastique", min: 0, max: 0 },
+  { id: "Chlorexidine", name: "Chlorexidine", min: 15, max: 50 },
+  { id: "Chlorure de Sodium", name: "Chlorure de Sodium", min: 15, max: 50 },
+  { id: "Champs Stériles", name: "Champs Stériles", min: 1, max: 3 },
+  { id: "Poche de Froid", name: "Poche de Froid", min: 3, max: 5 },
+  { id: "Poche Membre Sectionné Grand Model", name: "Poche Membre Sectionné Grand Model", min: 0, max: 1 },
+  { id: "Poche Membre Sectionné Model Moyen", name: "Poche Membre Sectionné Model Moyen", min: 0, max: 1 },
+  { id: "Poche Membre Sectionné Petit Model", name: "Poche Membre Sectionné Petit Model", min: 0, max: 1 },
+  { id: "BAVU Nouveau Naît", name: "BAVU Nouveau Naît", min: 1, max: 1 },
+  { id: "Cannule 00 ISO 5", name: "Cannule 00 ISO 5", min: 1, max: 1 },
+  { id: "Cannule 01 ISO 6.5", name: "Cannule 01 ISO 6.5", min: 1, max: 3 },
+  { id: "Capteur Pédiatrique Pouls", name: "Capteur Pédiatrique Pouls", min: 1, max: 2 },
+  { id: "BAVU Enfant", name: "BAVU Enfant", min: 1, max: 1 },
+  { id: "Sonde Aspirateur Mucosité", name: "Sonde Aspirateur Mucosité", min: 10, max: 40 },
+  { id: "Raccord Biconique", name: "Raccord Biconique", min: 1, max: 3 },
+  { id: "Cannule 03 ISO 9", name: "Cannule 03 ISO 9", min: 0, max: 1 },
+  { id: "Cannule 04 ISO 10", name: "Cannule 04 ISO 10", min: 5, max: 10 },
+  { id: "BAVU Adulte", name: "BAVU Adulte", min: 1, max: 2 },
+  { id: "Filtre BAVU", name: "Filtre BAVU", min: 1, max: 2 },
+  { id: "Tubulure Aspirateur Mucosité", name: "Tubulure Aspirateur Mucosité", min: 2, max: 4 },
+  { id: "Poche Aspirateur Mucosité", name: "Poche Aspirateur Mucosité", min: 2, max: 4 },
+  { id: "Masque Haute Concentration Adulte", name: "Masque Haute Concentration Adulte", min: 6, max: 10 },
+  { id: "Masque Simple Adulte", name: "Masque Simple Adulte", min: 5, max: 10 },
+  { id: "Masque Nébulisateur Adulte", name: "Masque Nébulisateur Adulte", min: 0, max: 5 },
+  { id: "Masque Haute Concentration Enfant", name: "Masque Haute Concentration Enfant", min: 2, max: 4 },
+  { id: "Masque Simple Enfant", name: "Masque Simple Enfant", min: 2, max: 4 },
+  { id: "Masque Nébulisateur Enfant", name: "Masque Nébulisateur Enfant", min: 0, max: 5 },
+  { id: "Lunette de Protection", name: "Lunette de Protection", min: 2, max: 5 },
+  { id: "Couverture de Survie", name: "Couverture de Survie", min: 3, max: 8 },
+  { id: "Masques Chirurgicaux", name: "Masques Chirurgicaux", min: 1, max: 2 },
+  { id: "Masque FFP2", name: "Masque FFP2", min: 1, max: 2 },
+  { id: "Vomibag", name: "Vomibag", min: 5, max: 10 },
+  { id: "Rasoir", name: "Rasoir", min: 5, max: 10 },
+  { id: "Boîte de Gant S", name: "Boîte de Gant S", min: 1, max: 2 },
+  { id: "Boîte de Gant M", name: "Boîte de Gant M", min: 2, max: 3 },
+  { id: "Boîte de Gant L", name: "Boîte de Gant L", min: 2, max: 4 },
+  { id: "Boîte de Gant XL", name: "Boîte de Gant XL", min: 1, max: 2 },
+  { id: "Collier Cervical Adulte", name: "Collier Cervical Adulte", min: 5, max: 10 },
+  { id: "Collier Cervical Enfant", name: "Collier Cervical Enfant", min: 3, max: 5 },
+  { id: "Speed Bloc", name: "Speed Bloc", min: 0, max: 1 },
+  { id: "Couverture", name: "Couverture", min: 0, max: 1 },
+  { id: "Attelle à Dépression Petit Model", name: "Attelle à Dépression Petit Model", min: 0, max: 1 },
+  { id: "Attelle à Dépression Model Moyen", name: "Attelle à Dépression Model Moyen", min: 0, max: 1 },
+  { id: "Housse Mortuaire", name: "Housse Mortuaire", min: 2, max: 3 },
+  { id: "Draps", name: "Draps", min: 50, max: 100 },
+  { id: "Boîte DASRI Petit Model", name: "Boîte DASRI Petit Model", min: 2, max: 5 },
+  { id: "Boîte DASRI Model Moyen", name: "Boîte DASRI Model Moyen", min: 2, max: 5 },
+  { id: "Boîte DASRI Grand Model", name: "Boîte DASRI Grand Model", min: 2, max: 5 },
+  { id: "Pompe à Dépression", name: "Pompe à Dépression", min: 0, max: 1 },
+  { id: "Jeu de Chaîne", name: "Jeu de Chaîne", min: 0, max: 1 },
+  { id: "Boîte + Sac de Rangement", name: "Boîte + Sac de Rangement", min: 0, max: 0 },
+  { id: "Urinoire", name: "Urinoire", min: 1, max: 5 },
+  { id: "Boîte de Lingette", name: "Boîte de Lingette", min: 2, max: 4 },
+  { id: "Rouleau DAOM", name: "Rouleau DAOM", min: 2, max: 4 },
+  { id: "Rouleau DASRI", name: "Rouleau DASRI", min: 1, max: 2 },
+  { id: "Désinfectant de Surface", name: "Désinfectant de Surface", min: 2, max: 4 },
+  { id: "Désodorisant Cerise", name: "Désodorisant Cerise", min: 0, max: 1 },
+  { id: "Papier pour Essuyer", name: "Papier pour Essuyer", min: 0, max: 0 },
+  { id: "Détergeant Sol VSAV", name: "Détergeant Sol VSAV", min: 2, max: 4 },
+  { id: "Sachet Nettoyant Sol", name: "Sachet Nettoyant Sol", min: 20, max: 50 },
+  { id: "Solution Hydro Alcoolique SHA", name: "Solution Hydro Alcoolique SHA", min: 2, max: 5 },
+  { id: "Carton DASRI", name: "Carton DASRI", min: 5, max: 5 },
+  { id: "Bouteille O2", name: "Bouteille O2", min: 1, max: 1 }
 ];
 
 const STORAGE_KEY = "inventaire_composants_v1";
@@ -78,7 +178,7 @@ function getComponentById(id) {
 function getLowStockComponents() {
   return COMPONENTS.filter((component) => {
     const current = inventory[component.id]?.quantity ?? 0;
-    return current < component.min;
+    return current <= component.min;
   });
 }
 
@@ -366,8 +466,13 @@ const orderTableBody = document.getElementById("orderTableBody");
 const orderEmpty = document.getElementById("orderEmpty");
 const orderTableWrap = document.getElementById("orderTableWrap");
 const orderBadge = document.getElementById("orderBadge");
+const expiryTableBody = document.getElementById("expiryTableBody");
+const expiryEmpty = document.getElementById("expiryEmpty");
+const expiryTableWrap = document.getElementById("expiryTableWrap");
 
 function renderOrderTable() {
+  const expiring = getExpiringComponents();
+  expiryTableBody.innerHTML = "";
   const lowStock = getLowStockComponents();
   orderTableBody.innerHTML = "";
 
@@ -394,6 +499,104 @@ function renderOrderTable() {
     `;
     orderTableBody.appendChild(row);
   });
+
+  if (expiring.length === 0) {
+
+  expiryEmpty.classList.remove("hidden");
+  expiryTableWrap.classList.add("hidden");
+
+} else {
+
+  expiryEmpty.classList.add("hidden");
+  expiryTableWrap.classList.remove("hidden");
+
+  expiring.forEach((component) => {
+
+    const current = inventory[component.id] || {
+      quantity: 0,
+      expiry: ""
+    };
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td class="product-name">
+        ${escapeHtml(component.name)}
+      </td>
+
+      <td>
+        ${current.quantity}
+      </td>
+
+      <td>
+        ${formatDateForExport(current.expiry)}
+      </td>
+
+      <td>
+        <span class="status status-low">
+          ${escapeHtml(
+            getExpiryStatus(current.expiry)
+          )}
+        </span>
+      </td>
+    `;
+
+    expiryTableBody.appendChild(row);
+  });
+}
+}
+
+function getExpiringComponents() {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const limit = new Date(today);
+  limit.setDate(limit.getDate() + 30);
+
+  return COMPONENTS.filter((component) => {
+    const expiry = inventory[component.id]?.expiry;
+
+    if (!expiry) return false;
+
+    const expiryDate = new Date(`${expiry}T00:00:00`);
+
+    // Affiche les produits déjà périmés
+    // + ceux qui périment dans les 30 prochains jours
+    return !Number.isNaN(expiryDate.getTime()) && expiryDate <= limit;
+  }).sort((a, b) => {
+    const dateA = new Date(`${inventory[a.id].expiry}T00:00:00`);
+    const dateB = new Date(`${inventory[b.id].expiry}T00:00:00`);
+
+    return dateA - dateB;
+  });
+}
+
+function getExpiryStatus(expiry) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const expiryDate = new Date(`${expiry}T00:00:00`);
+
+  const diffMs = expiryDate - today;
+  const diffDays = Math.ceil(
+    diffMs / (1000 * 60 * 60 * 24)
+  );
+
+  if (diffDays < 0) {
+    const daysExpired = Math.abs(diffDays);
+
+    return `Périmé depuis ${daysExpired} jour${
+      daysExpired > 1 ? "s" : ""
+    }`;
+  }
+
+  if (diffDays === 0) {
+    return "Périme aujourd’hui";
+  }
+
+  return `${diffDays} jour${
+    diffDays > 1 ? "s" : ""
+  } restant${diffDays > 1 ? "s" : ""}`;
 }
 
 function renderOrderBadge() {
