@@ -6,32 +6,8 @@
 // Cette connexion sert seulement de verrou léger côté navigateur.
 const USERS = [
   {
-    username: "ol",
-    password: "se"
-  },
-  {
-    username: "ce",
-    password: "vi"
-  },
-  {
-    username: "lo",
-    password: "si"
-  },
-  {
-    username: "th",
-    password: "mo"
-  },
-  {
-    username: "el",
-    password: "pe"
-  },
-  {
-    username: "na",
-    password: "ge"
-  },
-  {
-    username: "le",
-    password: "yr"
+    username: "pharma",
+    password: "pharma"
   }
 ];
 
