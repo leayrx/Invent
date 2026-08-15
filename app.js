@@ -184,15 +184,29 @@ function showLogin() {
 loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
-  const username = document.getElementById("loginUsername").value.trim();
-  const password = document.getElementById("loginPassword").value;
+  const username = document
+    .getElementById("loginUsername")
+    .value
+    .trim();
 
-  if (username === AUTH.username && password === AUTH.password) {
+  const password =
+    document.getElementById("loginPassword").value;
+
+  const user = USERS.find(
+    (user) =>
+      user.username === username &&
+      user.password === password
+  );
+
+  if (user) {
     sessionStorage.setItem(SESSION_KEY, "true");
+    sessionStorage.setItem("inventaire_user", user.username);
+
     loginError.textContent = "";
     showApp();
   } else {
-    loginError.textContent = "Identifiant ou mot de passe incorrect.";
+    loginError.textContent =
+      "Identifiant ou mot de passe incorrect.";
   }
 });
 
