@@ -199,15 +199,29 @@ loginForm.addEventListener("submit", (event) => {
   );
 
   if (user) {
-    sessionStorage.setItem(SESSION_KEY, "true");
-    sessionStorage.setItem("inventaire_user", user.username);
+  sessionStorage.setItem(SESSION_KEY, "true");
+  sessionStorage.setItem("inventaire_user", user.username);
 
-    loginError.textContent = "";
-    showApp();
-  } else {
-    loginError.textContent =
-      "Identifiant ou mot de passe incorrect.";
+  // Remise à zéro complète de l'inventaire
+  inventory = buildDefaultInventory();
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(inventory)
+  );
+
+  // Remise à zéro de la zone de notes
+  localStorage.removeItem("recommendationNotes");
+
+  const notes =
+    document.getElementById("recommendationNotes");
+
+  if (notes) {
+    notes.value = "";
   }
+
+  loginError.textContent = "";
+  showApp();
+}
 });
 
 logoutBtn.addEventListener("click", () => {
