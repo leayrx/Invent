@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventaire composants</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="loginOverlay" class="overlay">
+    <div class="login-card">
+      <div class="brand-mark">INV</div>
+      <h1>Inventaire</h1>
+      <p class="muted">Identifiez-vous pour accéder à l'application.</p>
+
+      <form id="loginForm">
+        <label for="loginUsername">Identifiant</label>
+        <input id="loginUsername" type="text" autocomplete="username" required />
+
+        <label for="loginPassword">Mot de passe</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" required />
+
+        <p id="loginError" class="error-message" aria-live="polite"></p>
+        <button class="btn btn-primary full" type="submit">Se connecter</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <header class="topbar">
+      <div>
+        <h1>Inventaire composants</h1>
+        <p class="muted">Suivi du stock et des réapprovisionnements</p>
+      </div>
+      <button id="logoutBtn" class="btn btn-ghost" type="button">Déconnexion</button>
+    </header>
+
+    <nav class="tabs" aria-label="Navigation principale">
+      <button class="tab active" data-page="entryPage" type="button">Saisie</button>
+      <button class="tab" data-page="stockPage" type="button">Stock actuel</button>
+      <button class="tab" data-page="orderPage" type="button">
+        À recommander
+        <span id="orderBadge" class="badge">0</span>
+      </button>
+    </nav>
+
+    <main>
+      <section id="entryPage" class="page active-page">
+        <div class="panel narrow-panel">
+          <div class="panel-header">
+            <div>
+              <h2>Saisie d'un composant</h2>
+              <p class="muted">Commencez à écrire les premières lettres puis sélectionnez le composant.</p>
+            </div>
+          </div>
+
+          <form id="entryForm" class="form-grid" autocomplete="off">
+            <div class="field full-width autocomplete-wrapper">
+              <label for="productSearch">Composant</label>
+              <input id="productSearch" type="text" placeholder="Ex. ATV, M340, TSX..." required />
+              <input id="selectedProductId" type="hidden" />
+              <div id="suggestions" class="suggestions hidden" role="listbox"></div>
+              <small id="selectedProductInfo" class="helper"></small>
+            </div>
+
+            <div class="field">
+              <label for="quantityInput">Quantité actuelle</label>
+              <input id="quantityInput" type="number" min="0" step="1" required />
+            </div>
+
+            <div class="field">
+              <label for="expiryInput">Date de fin / péremption</label>
+              <input id="expiryInput" type="date" required />
+            </div>
+
+            <div class="full-width action-row">
+              <button class="btn btn-primary" type="submit">Enregistrer le stock</button>
+              <button id="resetEntryBtn" class="btn btn-secondary" type="button">Effacer</button>
+            </div>
+          </form>
+
+          <div id="entryMessage" class="success-message hidden" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="stockPage" class="page">
+        <div class="panel">
+          <div class="panel-header split">
+            <div>
+              <h2>Stock actuel</h2>
+              <p class="muted">Quantité et date sont modifiables. Les seuils mini/maxi sont définis dans le code.</p>
+            </div>
+            <div class="button-group">
+              <button id="exportStockPdf" class="btn btn-secondary" type="button">Export PDF</button>
+              <button id="exportStockExcel" class="btn btn-secondary" type="button">Export Excel</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Composant</th>
+                  <th>Stock actuel</th>
+                  <th>Date de fin</th>
+                  <th>Stock minimum</th>
+                  <th>Stock maximum</th>
+                  <th>État</th>
+                </tr>
+              </thead>
+              <tbody id="stockTableBody"></tbody>
+            </table>
+          </div>
+          <p class="save-note">Les modifications sont sauvegardées automatiquement dans ce navigateur.</p>
+        </div>
+      </section>
+
+      <section id="orderPage" class="page">
+        <div class="panel">
+          <div class="panel-header split">
+            <div>
+              <h2>Composants à recommander</h2>
+              <p class="muted">Seuls les composants sous leur stock minimum apparaissent ici.</p>
+            </div>
+            <div class="button-group">
+              <button id="exportOrderPdf" class="btn btn-secondary" type="button">Export PDF</button>
+              <button id="exportOrderExcel" class="btn btn-secondary" type="button">Export Excel</button>
+            </div>
+          </div>
+
+          <div id="orderEmpty" class="empty-state hidden">
+            <strong>Aucun réapprovisionnement nécessaire.</strong>
+            <span>Tous les composants sont au-dessus ou au niveau de leur stock minimum.</span>
+          </div>
+
+          <div id="orderTableWrap" class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Composant</th>
+                  <th>Quantité à commander</th>
+                  <th>Stock actuel</th>
+                  <th>Stock minimum</th>
+                  <th>Stock maximum</th>
+                </tr>
+              </thead>
+              <tbody id="orderTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Bibliothèque Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- Bibliothèques PDF -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
