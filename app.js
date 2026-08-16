@@ -62,7 +62,7 @@ const COMPONENTS = [
   { id: "Cannule 03 ISO 9", name: "Cannule 03 ISO 9", min: 0, max: 1 },
   { id: "Cannule 04 ISO 10", name: "Cannule 04 ISO 10", min: 5, max: 10 },
   { id: "BAVU Adulte", name: "BAVU Adulte", min: 1, max: 2 },
-  { id: "Filtre BAVU", name: "Filtre BAVU", min: 1, max: 2 },
+  { id: "Filtre BAVU", name: "Filtre BAVU", min: 0, max: 2 },
   { id: "Tubulure Aspirateur Mucosité", name: "Tubulure Aspirateur Mucosité", min: 2, max: 4 },
   { id: "Poche Aspirateur Mucosité", name: "Poche Aspirateur Mucosité", min: 2, max: 4 },
   { id: "Masque Haute Concentration Adulte", name: "Masque Haute Concentration Adulte", min: 6, max: 10 },
