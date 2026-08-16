@@ -57,7 +57,7 @@ const COMPONENTS = [
   { id: "Cannule 01 ISO 6.5", name: "Cannule 01 ISO 6.5", min: 1, max: 3 },
   { id: "Capteur Pédiatrique Pouls", name: "Capteur Pédiatrique Pouls", min: 1, max: 2 },
   { id: "BAVU Enfant", name: "BAVU Enfant", min: 1, max: 1 },
-  { id: "Sonde Aspirateur Mucosité - CH26", name: "Sonde Aspirateur Mucosité - CH26", min: 10, max: 40 },
+  { id: "Sonde Aspirateur Mucosité - CH26", name: "Sonde Aspirateur Mucosité - CH26", min: 5, max: 10 },
   { id: "Raccord Biconique", name: "Raccord Biconique", min: 1, max: 3 },
   { id: "Cannule 03 ISO 9", name: "Cannule 03 ISO 9", min: 0, max: 1 },
   { id: "Cannule 04 ISO 10", name: "Cannule 04 ISO 10", min: 5, max: 10 },
