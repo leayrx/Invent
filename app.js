@@ -71,7 +71,7 @@ const COMPONENTS = [
   { id: "Masque Haute Concentration Enfant", name: "Masque Haute Concentration Enfant", min: 2, max: 4 },
   { id: "Masque Simple Enfant", name: "Masque Simple Enfant", min: 2, max: 4 },
   { id: "Masque Nébulisateur Enfant", name: "Masque Nébulisateur Enfant", min: 0, max: 5 },
-  { id: "Lunettes de Protection", name: "Lunettes de Protection", min: 2, max: 5 },
+  { id: "Lunettes de Protection", name: "Lunettes de Protection", min: 1, max: 3 },
   { id: "Couverture de Survie", name: "Couverture de Survie", min: 3, max: 8 },
   { id: "Poche (de 50) Masques Chirurgicaux", name: "Poche (de 50) Masques Chirurgicaux", min: 1, max: 2 },
   { id: "Poche (de 5) Masque FFP2", name: "Poche (de 5) Masque FFP2", min: 1, max: 2 },
