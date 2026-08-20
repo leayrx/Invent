@@ -1,0 +1,24 @@
+{
+  "name": "inventaire-alwaysdata",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Application d'inventaire avec authentification, PostgreSQL, historique et exports.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check public/app.js && node --check scripts/create-user.js",
+    "user:add": "node scripts/create-user.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "connect-pg-simple": "^10.0.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.6.2",
+    "express-session": "^1.19.0",
+    "pg": "^8.23.0"
+  }
+}
