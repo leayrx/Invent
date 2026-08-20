@@ -143,6 +143,10 @@ async function initializeDatabase() {
       )
     `);
     await client.query(`
+    ALTER TABLE components
+    ADD COLUMN IF NOT EXISTS sort_order INTEGER NOT NULL DEFAULT 0
+    `);
+    await client.query(`
       CREATE TABLE IF NOT EXISTS inventory_current (
         component_id TEXT PRIMARY KEY REFERENCES components(component_id) ON DELETE CASCADE,
         quantity INTEGER NOT NULL DEFAULT 0 CHECK (quantity >= 0),
