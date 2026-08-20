@@ -32,7 +32,10 @@
         <h1>Inventaire composants</h1>
         <p class="muted">Suivi du stock et des réapprovisionnements</p>
       </div>
-      <button id="logoutBtn" class="btn btn-ghost" type="button">Déconnexion</button>
+      <div class="topbar-actions">
+        <span id="currentUser" class="user-chip"></span>
+        <button id="logoutBtn" class="btn btn-ghost" type="button">Déconnexion</button>
+      </div>
     </header>
 
     <nav class="tabs" aria-label="Navigation principale">
@@ -42,6 +45,7 @@
         À recommander
         <span id="orderBadge" class="badge">0</span>
       </button>
+      <button class="tab" data-page="historyPage" type="button">Historique</button>
     </nav>
 
     <main>
@@ -88,7 +92,7 @@
           <div class="panel-header split">
             <div>
               <h2>Stock actuel</h2>
-              <p class="muted">Quantité et date sont modifiables. Les seuils mini/maxi sont définis dans le code.</p>
+              <p class="muted">Les quantités et péremptions sont enregistrées dans PostgreSQL sur alwaysdata.</p>
             </div>
             <div class="button-group">
               <button id="exportStockPdf" class="btn btn-secondary" type="button">Export PDF</button>
@@ -111,7 +115,7 @@
               <tbody id="stockTableBody"></tbody>
             </table>
           </div>
-          <p class="save-note">Les modifications sont sauvegardées automatiquement dans ce navigateur.</p>
+          <p class="save-note">Chaque modification est sauvegardée sur le serveur et ajoutée à l'historique.</p>
         </div>
       </section>
 
@@ -120,17 +124,17 @@
           <div class="panel-header split">
             <div>
               <h2>Composants à recommander</h2>
-              <p class="muted">Seuls les composants sous leur stock minimum apparaissent ici.</p>
+              <p class="muted">Les composants au niveau ou sous leur stock minimum apparaissent ici.</p>
             </div>
             <div class="button-group">
-              <button id="exportOrderPdf" class="btn btn-secondary" type="button">Export PDF</button>
-              <button id="exportOrderExcel" class="btn btn-secondary" type="button">Export Excel</button>
+              <button id="exportOrderPdf" class="btn btn-secondary" type="button">Export global PDF</button>
+              <button id="exportOrderExcel" class="btn btn-secondary" type="button">Export global Excel</button>
             </div>
           </div>
 
           <div id="orderEmpty" class="empty-state hidden">
             <strong>Aucun réapprovisionnement nécessaire.</strong>
-            <span>Tous les composants sont au-dessus ou au niveau de leur stock minimum.</span>
+            <span>Tous les composants sont au-dessus de leur stock minimum.</span>
           </div>
 
           <div id="orderTableWrap" class="table-wrap">
@@ -147,56 +151,106 @@
               <tbody id="orderTableBody"></tbody>
             </table>
           </div>
+
           <div class="expiry-section">
-  <div class="section-title">
-    <h3>Péremption dans 1 mois ou moins</h3>
-    <p class="muted">
-      Produits dont la date de péremption est dans les 30 prochains jours,
-      ainsi que les produits déjà périmés.
-    </p>
-  </div>
+            <div class="section-title split">
+              <div>
+                <h3>Péremption dans 1 mois ou moins</h3>
+                <p class="muted">Produits périmés ou arrivant à péremption dans les 30 prochains jours.</p>
+              </div>
+              <div class="button-group">
+                <button id="exportExpiryPdf" class="btn btn-secondary" type="button">Péremptions PDF</button>
+                <button id="exportExpiryExcel" class="btn btn-secondary" type="button">Péremptions Excel</button>
+              </div>
+            </div>
 
-  <div id="expiryEmpty" class="empty-state hidden">
-    <strong>Aucune péremption proche.</strong>
-    <span>Aucun composant ne périme dans les 30 prochains jours.</span>
-  </div>
+            <div id="expiryEmpty" class="empty-state hidden">
+              <strong>Aucune péremption proche.</strong>
+              <span>Aucun composant ne périme dans les 30 prochains jours.</span>
+            </div>
 
-  <div id="expiryTableWrap" class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Composant</th>
-          <th>Stock actuel</th>
-          <th>Date de péremption</th>
-          <th>Délai</th>
-        </tr>
-      </thead>
+            <div id="expiryTableWrap" class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Composant</th>
+                    <th>Stock actuel</th>
+                    <th>Date de péremption</th>
+                    <th>Délai</th>
+                  </tr>
+                </thead>
+                <tbody id="expiryTableBody"></tbody>
+              </table>
+            </div>
+          </div>
 
-      <tbody id="expiryTableBody"></tbody>
-    </table>
-  </div>
-</div>
-<div class="notes-section">
-  <h3>Notes / Commentaires</h3>
+          <div class="notes-section">
+            <div class="section-title">
+              <h3>Notes / Commentaires</h3>
+              <p class="muted">Le commentaire est enregistré sur alwaysdata et reste disponible dans l'historique.</p>
+            </div>
+            <textarea id="recommendationNotes" placeholder="Saisir une note libre..." rows="6"></textarea>
+            <div class="notes-actions">
+              <button id="saveNotesBtn" class="btn btn-primary" type="button">Enregistrer le commentaire</button>
+              <span id="notesStatus" class="helper" aria-live="polite"></span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <textarea
-    id="recommendationNotes"
-    placeholder="Saisir une note libre..."
-    rows="6"
-  ></textarea>
-</div>
+      <section id="historyPage" class="page">
+        <div class="panel">
+          <div class="panel-header split">
+            <div>
+              <h2>Historique</h2>
+              <p class="muted">Sélectionnez une date pour retrouver l'état de l'inventaire à la fin de cette journée.</p>
+            </div>
+            <div class="button-group">
+              <button id="exportHistoryPdf" class="btn btn-secondary" type="button" disabled>Export PDF</button>
+              <button id="exportHistoryExcel" class="btn btn-secondary" type="button" disabled>Export Excel</button>
+            </div>
+          </div>
+
+          <div class="history-controls">
+            <div class="field">
+              <label for="historyDate">Date</label>
+              <input id="historyDate" type="date" />
+            </div>
+            <button id="loadHistoryBtn" class="btn btn-primary" type="button">Afficher l'inventaire</button>
+          </div>
+          <p id="historyStatus" class="helper" aria-live="polite"></p>
+
+          <div id="historyContent" class="hidden">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Composant</th>
+                    <th>Stock</th>
+                    <th>Péremption</th>
+                    <th>Minimum</th>
+                    <th>Maximum</th>
+                    <th>État</th>
+                    <th>Dernière modification</th>
+                  </tr>
+                </thead>
+                <tbody id="historyTableBody"></tbody>
+              </table>
+            </div>
+
+            <div class="history-note">
+              <h3>Commentaire à cette date</h3>
+              <div id="historyNote" class="note-box muted">Aucun commentaire.</div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Bibliothèque Excel -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-
-  <!-- Bibliothèques PDF -->
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
-
   <script src="app.js"></script>
 </body>
 </html>
