@@ -137,6 +137,7 @@ async function initializeDatabase() {
         name TEXT NOT NULL,
         min_stock INTEGER NOT NULL CHECK (min_stock >= 0),
         max_stock INTEGER NOT NULL CHECK (max_stock >= min_stock),
+        sort_order INTEGER NOT NULL DEFAULT 0,
         active BOOLEAN NOT NULL DEFAULT TRUE,
         updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
       )
@@ -182,18 +183,32 @@ async function initializeDatabase() {
 
     await client.query('UPDATE components SET active = FALSE');
 
-    for (const component of COMPONENTS) {
-      await client.query(
-        `INSERT INTO components (component_id, name, min_stock, max_stock, active)
-         VALUES ($1, $2, $3, $4, TRUE)
-         ON CONFLICT (component_id) DO UPDATE SET
-           name = EXCLUDED.name,
-           min_stock = EXCLUDED.min_stock,
-           max_stock = EXCLUDED.max_stock,
-           active = TRUE,
-           updated_at = NOW()`,
-        [component.id, component.name, component.min, component.max]
-      );
+    for (const [index, component] of COMPONENTS.entries()) {
+  await client.query(
+    `INSERT INTO components (
+       component_id,
+       name,
+       min_stock,
+       max_stock,
+       sort_order,
+       active
+     )
+     VALUES ($1, $2, $3, $4, $5, TRUE)
+     ON CONFLICT (component_id) DO UPDATE SET
+       name = EXCLUDED.name,
+       min_stock = EXCLUDED.min_stock,
+       max_stock = EXCLUDED.max_stock,
+       sort_order = EXCLUDED.sort_order,
+       active = TRUE,
+       updated_at = NOW()`,
+    [
+      component.id,
+      component.name,
+      component.min,
+      component.max,
+      index
+    ]
+  );
       await client.query(
         `INSERT INTO inventory_current (component_id, quantity, expiry)
          VALUES ($1, 0, NULL)
@@ -278,7 +293,7 @@ app.get('/api/components', requireAuth, async (_req, res) => {
     SELECT component_id AS id, name, min_stock AS min, max_stock AS max
     FROM components
     WHERE active = TRUE
-    ORDER BY name COLLATE "C"
+    ORDER BY sort_order
   `);
   res.json(result.rows);
 });
@@ -292,7 +307,7 @@ app.get('/api/inventory', requireAuth, async (_req, res) => {
     JOIN inventory_current i ON i.component_id = c.component_id
     LEFT JOIN users u ON u.id = i.updated_by
     WHERE c.active = TRUE
-    ORDER BY c.name COLLATE "C"
+    ORDER BY sort_order
   `);
   res.json(result.rows);
 });
@@ -432,7 +447,7 @@ app.get('/api/history', requireAuth, async (req, res) => {
       ) e ON TRUE
       LEFT JOIN users u ON u.id = e.changed_by
       WHERE c.active = TRUE
-      ORDER BY c.name COLLATE "C"
+      ORDER BY sort_order
     `, [date, APP_TIMEZONE]);
 
     const noteResult = await pool.query(`
